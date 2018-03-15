@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.sc.listeMagasins.MagasinActivity">
+
+    <Button
+        android:id="@+id/btn_afficher_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="afficher message" />
+
+    <Button
+        android:id="@+id/btn_charger_sans"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="charger magasin sans paralilisme" />
+
+    <Button
+        android:id="@+id/btn_charger_thread"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="charger magasins avec Thread" />
+
+    <Button
+        android:id="@+id/btn_charger_async_task"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="charger magasins avec AsyncTask" />
+
+
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </ListView>
+
+</LinearLayout>
