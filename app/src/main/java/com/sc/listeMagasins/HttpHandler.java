@@ -46,6 +46,12 @@ public class HttpHandler {
         return response;
     }
 
+    /**
+     * Convertir le flux de service à une chaine de caractères
+     * @param is
+     * @return
+     */
+
     private String convertStreamToString(InputStream is) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         StringBuilder sb = new StringBuilder();

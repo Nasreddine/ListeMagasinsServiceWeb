@@ -22,7 +22,9 @@ class Magasin extends BaseWeBuy {
     private String adresse;
     private double latitude;
     private double longitude;
-    private String logo;
+    private String logo; // chaîne de caractère représente le lien  vers l'image du logo
+
+    // liste des promos d'un magasin, à récupérer aussi via le service Web
     private ArrayList<Promotion> promotions;
 
     private static String api_url = BaseWeBuy.api_url + "/magasins";
@@ -35,6 +37,9 @@ class Magasin extends BaseWeBuy {
 
     public static ArrayList<Magasin> getAllMagasins() {
 
+        // bloquer la requête pendant 2 seconds: juste pour illustrer l'effet des requêtes lourdes
+        // sur l'interface graphique si on n'utilise pas les Threads ou AsyncTask
+        // cette partie à supprimer dans votre application
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
@@ -42,24 +47,25 @@ class Magasin extends BaseWeBuy {
         }
         ArrayList<Magasin> magasins = new ArrayList<>();
 
-        HttpHandler sh = new HttpHandler();
+        HttpHandler serviceWebHandler = new HttpHandler();
 
-        // Making a request to url and getting response
-        String jsonStr = sh.makeServiceCall(api_url);
+        // Effectuer la requete on utilisant l'url , la réponse est une chaîne JSON
+
+        String jsonStr = serviceWebHandler.makeServiceCall(api_url);
 
         Log.e(TAG, "Réponse Serveur: " + jsonStr);
 
         if (jsonStr != null) {
             try {new JSONArray(jsonStr);
 
-                // Getting JSON Array node
+                // Récuperer le tableau des magasins
                 JSONArray magasins_json = new JSONArray(jsonStr);
 
-                // looping through All Contacts
+                // Pour tous les magasins
 
                 for (int i = 0; i < magasins_json.length(); i++) {
 
-
+                    // récupérer les valeurs de chaque propriété
                     JSONObject magasin_json = magasins_json.getJSONObject(i);
 
                     int id_magasin = magasin_json.getInt("id_magasin");
@@ -71,13 +77,16 @@ class Magasin extends BaseWeBuy {
 
                     String logo = magasin_json.getString("logo");
 
+                    // créer un objet magasin en lui rajoutant les propriétés récupérées par json
+
                     Magasin magasin = new Magasin();
                     magasin.setId(id_magasin);
                     magasin.setNom(nom);
                     magasin.setLongitude(latitude);
                     magasin.setLatitude(longitude);
                     magasin.setAdresse(adresse);
-
+                    magasin.setLogo(logo);
+                    // réjouter le magasin à la liste des magasins
                     magasins.add(magasin);
                 }
             } catch (final JSONException e) {
@@ -90,27 +99,6 @@ class Magasin extends BaseWeBuy {
 
         return magasins;
 
-
-
-
-
-    }
-
-    /**
-     * renvoyer toutes les achat en groupe  d'un magasin
-     * chat achat concerne une promo qui elle même concerne un produit
-     *
-     * @param id_magasin
-     * @return
-     */
-
-    public static ArrayList<AchatGroupe> getAllAchatGroupe(int id_magasin) {
-
-        ArrayList<AchatGroupe> achatGroupes = new ArrayList<>();
-        AchatGroupe achatGroupe1 = new AchatGroupe();
-
-
-        return achatGroupes;
     }
 
 

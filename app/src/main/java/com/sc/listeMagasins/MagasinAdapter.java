@@ -1,6 +1,7 @@
 package com.sc.listeMagasins;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 /**
  * Created by nasredine on 25/02/2018.
@@ -19,15 +21,13 @@ import java.util.ArrayList;
 
 class MagasinAdapter extends BaseAdapter {
 
-    //TODO: avoid to pass whole activity object, pass only context!
-    //https://stackoverflow.com/questions/33162348/passing-activity-or-context-to-other-instance
 
-    private final MagasinActivity mainActivityContext;
+    private final Context context;
     private ArrayList<Magasin> magasins;
 
-    public MagasinAdapter(MagasinActivity mainActivityContext, ArrayList<Magasin> magasins) {
+    public MagasinAdapter(Context context, ArrayList<Magasin> magasins) {
         this.magasins = magasins;
-        this.mainActivityContext = mainActivityContext;
+        this.context = context;
     }
 
 
@@ -44,7 +44,7 @@ class MagasinAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return magasins.get(position).getId();
     }
 
     @Override
@@ -53,7 +53,7 @@ class MagasinAdapter extends BaseAdapter {
         // on crée l'élément graphique qui affiche les éléments de la liste
         View itemView = convertView;
         if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) mainActivityContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             itemView = inflater.inflate(R.layout.magasin_item, null);
         }
         // On fait un lien entre chaque composant d'un élément de la liste
@@ -65,21 +65,8 @@ class MagasinAdapter extends BaseAdapter {
         nom.setText(magasins.get(position).getNom());
         adresse.setText(magasins.get(position).getAdresse());
 
-        // On utilise la bibliothèque Picasso pour pouvoir charger le logo du magasin à travers un lien URI
-        Picasso.with(mainActivityContext).load(magasins.get(position).getLogo())
-                .into(logo, new com.squareup.picasso.Callback(){
-                    @Override
-                    public void onSuccess(){
-                        Toast.makeText(mainActivityContext, "success Loading img", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onError(){
-                        Toast.makeText(mainActivityContext, "ERROR Loading img", Toast.LENGTH_SHORT).show();
-                    }
-
-                });
-
+        // On utilise la bibliothèque Picasso pour pouvoir charger l'image du logo magasin à travers un lien URI
+        Picasso.get().load(magasins.get(position).getLogo()).into(logo);
 
 
         return itemView;
